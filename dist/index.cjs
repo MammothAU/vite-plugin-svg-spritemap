@@ -4668,14 +4668,14 @@ function BuildPlugin(iconsPattern, options) {
       if (typeof options.output !== "object" || !spritemapFilter.test(code))
         return;
       const base = config.base.startsWith(".") ? config.base.substring(1) : config.base;
-      filename = this.getFileName(fileRef);
-      full_path = import_node_path3.posix.join(base, filename);
+      const filename = this.getFileName(fileRef);
+      let fullPath = import_node_path3.posix.join(base, filename);
       if (base.startsWith("http") || base.startsWith("//"))
-        full_path = new URL(filename, base).href;
+        fullPath = new URL(filename, base).href;
       return {
         code: code.replace(
           spritemapFilter,
-          full_path
+          fullPath
         ),
         map: null
       };
@@ -4835,7 +4835,7 @@ function VuePlugin(iconsPattern, options) {
       if (!id.match(filterVueComponent))
         return;
       const [path3, query] = id.split("?", 2);
-      const { name, base: filename2 } = (0, import_node_path4.parse)(path3);
+      const { name, base: filename } = (0, import_node_path4.parse)(path3);
       const svg = svgManager.svgs.get(name);
       let source = "";
       if (query === "view" && (options.output.view === false || options.output.use === false)) {
@@ -4851,7 +4851,7 @@ function VuePlugin(iconsPattern, options) {
       const { code } = compileTemplate({
         id,
         source,
-        filename: filename2,
+        filename,
         transformAssetUrls: false
       });
       return `${code}

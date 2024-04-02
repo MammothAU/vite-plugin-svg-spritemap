@@ -79,17 +79,17 @@ export default function BuildPlugin(iconsPattern: Pattern, options: Options): Pl
         : config.base
 
       
-      filename = this.getFileName(fileRef);
-      full_path = path.join(base, filename)
+      const filename = this.getFileName(fileRef);
+      let fullPath = path.join(base, filename)
       
       // if base is a url, we must use URL to join 
       if (base.startsWith('http') || base.startsWith('//'))
-        full_path = new URL(filename, base).href
+      fullPath = new URL(filename, base).href
       
       return {
         code: code.replace(
           spritemapFilter,
-          full_path,
+          fullPath,
         ),
         map: null,
       }
